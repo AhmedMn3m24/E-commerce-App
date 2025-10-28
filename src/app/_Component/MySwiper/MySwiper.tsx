@@ -55,20 +55,23 @@ import 'swiper/css';
 
 type MySwiperProps = {
     imagesList: string[];
-    spaceBetween?: number;
     slidesPerView?: number;
+    spaceBetween?: number;
     autoplay?: boolean;
     delay?: number;
+    imgHeight?: string;
+    imgWidth?: string;
 
 };
 
 export default function MySwiper({
     imagesList,
-    spaceBetween = 10,
     slidesPerView = 1,
-    autoplay = false,
-    delay = 2000,
-
+    spaceBetween = 10,
+    autoplay = true,
+    delay = 3000,
+    imgHeight = "h-[470px]",   // default للـ Hero Slider
+    imgWidth = "w-full",
 }: MySwiperProps) {
     return (
         <Swiper
@@ -89,7 +92,7 @@ export default function MySwiper({
             {imagesList.map((src) => (
                 <SwiperSlide key={src}>
                     <img
-                        className="w-full h-[400px] object-cover rounded-xl shadow-md"
+                        className={`${imgWidth} ${imgHeight} object-cover rounded-xl shadow-md`}
                         src={src}
                         alt=""
                     />

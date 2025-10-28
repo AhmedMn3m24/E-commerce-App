@@ -53,9 +53,8 @@ export default async function CategorySlider() {
     }
 
     return (
-        <div className="max-w-6xl mx-auto px-4">
-            <h2 className="font-bold text-center italic text-2xl mb-4">Categories</h2>
-
+        <div className="max-w-6xl mx-auto px-4 mt-15"> {/* Container like Bootstrap */}
+            <h1 className="font-bold text-3xl mb-10">Categories</h1>
             <MySwiper
                 slidesPerView={4}
                 spaceBetween={20}
@@ -64,6 +63,8 @@ export default async function CategorySlider() {
                 )}
                 autoplay={true}
                 delay={1000}
+                imgHeight="h-[300px]"
+                imgWidth="w-[300px]"
 
             />
         </div>

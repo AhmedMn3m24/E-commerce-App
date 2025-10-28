@@ -76,16 +76,15 @@ export default function HomePage() {
       {/* Navbar */}
       <nav
         className="
-        w-full
-          shadow 
-          p-4 
-          flex flex-col md:flex-row md:items-center 
-          justify-between
-        "
+        w-full shadow p-4
+        flex flex-col md:flex-row md:items-center 
+        justify-between
+      "
       >
-        {/* Logo + Menu Button */}
-        <div className="flex items-center justify-between font-bold w-full md:w-auto">
-          <Image src={logo} alt="logo" width={100} height={100} className="w-25" />
+        <div className="flex items-center justify-between w-full md:w-auto font-bold">
+          <Link href="/">
+            <Image src={logo} alt="logo" width={120} height={100} />
+          </Link>
 
           <button
             className="md:hidden p-2 text-gray-600"
@@ -95,38 +94,106 @@ export default function HomePage() {
           </button>
         </div>
 
-        {/* Links */}
+        {/* Links in the center */}
         <ul
-          className={`flex flex-col font-bold md:flex-row gap-4 md:gap-10 mt-4 md:mt-0  text-gray-700 ${open ? "block" : "hidden md:flex"
-            }`}
+          className={`flex flex-col md:flex-row items-center justify-center 
+        font-bold gap-4 md:gap-10 mt-4 md:mt-0 text-black 
+        w-full md:w-auto ${open ? "block" : "hidden md:flex"}`}
         >
           <li><Link href="/">Home</Link></li>
+          <li><Link href="/wishlist">Wishlist</Link></li>
           <li><Link href="/contact">Contact</Link></li>
-          <li><Link href="/about">About</Link></li>
+
         </ul>
 
-        <div className="flex items-center gap-12 mt-4 mr-20 md:mt-0 ">
+        {/* Right side icons + Auth buttons */}
+        <div className="flex items-center gap-6 mt-4 md:mt-0 justify-end w-full md:w-auto">
+          {/* Icons */}
+          <div className="flex items-center gap-4">
+            <ShoppingCart className="cursor-pointer text-gray-700" />
+            <Heart className="cursor-pointer text-gray-700" />
+          </div>
 
-          <ShoppingCart className="cursor-pointer text-gray-700" />
-          <Heart className="cursor-pointer text-gray-700" />
+          {/* Auth Links */}
+          <NavigationMenu>
+            <Link className="font-bold" href="/register">Register</Link>
+          </NavigationMenu>
+          <NavigationMenu>
+            <Link className="font-bold" href="/login">Login</Link>
+          </NavigationMenu>
+
+          <NavigationMenu>
+            <Button className="cursor-pointer" variant="default">Logout</Button>
+          </NavigationMenu>
         </div>
-
-        <NavigationMenu>
-          <Link href="/regstier">Regstier</Link>
-        </NavigationMenu>
-        <NavigationMenu>
-          <Link href="/login">Login</Link>
-        </NavigationMenu>
-
-        <NavigationMenu>
-
-          <Button className="cursor-pointer" variant="default">Logout</Button>
-        </NavigationMenu>
-
-
       </nav>
-
-
-    </div >
+    </div>
   );
+
+
+
+
+
+
+
+  // const [open, setOpen] = useState(false);
+
+  // return (
+  //   <div className="w-full bg-gray-100">
+  //     {/* Navbar */}
+  //     <nav
+  //       className="
+  //       w-full
+  //         shadow 
+  //         p-4 
+  //         flex flex-col md:flex-row md:items-center 
+  //         justify-between
+  //       "
+  //     >
+  //       {/* Logo + Menu Button */}
+  //       <div className="flex items-center justify-between font-bold w-full md:w-auto">
+  //         <Image src={logo} alt="logo" width={100} height={100} className="w-25" />
+
+  //         <button
+  //           className="md:hidden p-2 text-gray-600"
+  //           onClick={() => setOpen(!open)}
+  //         >
+  //           <Menu className="w-6 h-6" />
+  //         </button>
+  //       </div>
+
+  //       {/* Links */}
+  //       <ul
+  //         className={`flex flex-col font-bold md:flex-row gap-4 md:gap-10 mt-4 md:mt-0  text-gray-700 ${open ? "block" : "hidden md:flex"
+  //           }`}
+  //       >
+  //         <li><Link href="/">Home</Link></li>
+  //         <li><Link href="/contact">Contact</Link></li>
+  //         <li><Link href="/about">About</Link></li>
+  //       </ul>
+
+  //       <div className="flex items-center gap-12 mt-4 mr-20 md:mt-0 ">
+
+  //         <ShoppingCart className="cursor-pointer text-gray-700" />
+  //         <Heart className="cursor-pointer text-gray-700" />
+  //       </div>
+
+  //       <NavigationMenu>
+  //         <Link className="font-bold" href="/regstier">Regstier</Link>
+  //       </NavigationMenu>
+  //       <NavigationMenu>
+  //         <Link className="font-bold" href="/login">Login</Link>
+  //       </NavigationMenu>
+
+  //       <NavigationMenu>
+
+  //         <Button className="cursor-pointer" variant="default">Logout</Button>
+  //       </NavigationMenu>
+
+
+  //     </nav>
+
+
+  //   </div >
+  // );
 }

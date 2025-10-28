@@ -31,8 +31,8 @@ export default async function Home() {
           </Suspense>
         </div>
       </div >
-      <h2 className='text-2xl mt-3 text-center font-bold italic'>Product</h2>
-      <div className='grid grid-cols-4 w-3/4 gap-5 mx-auto'>
+      <h1 className='text-4xl mt-12 ml-10 font-bold  '>Products</h1>
+      <div className='grid grid-cols-4 w-3/4 gap-5 mx-auto mt-10 mb-20'>
 
         {allProducts?.map(product => <ProductCard key={product.id} product={product} />)}
       </div>

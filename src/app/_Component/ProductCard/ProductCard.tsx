@@ -30,7 +30,7 @@ import { CiStar } from "react-icons/ci";
 export default function ProductCard({ product }: { product: any }) {
   return (
     <Link href={`/ProductDetalis/${product.id}`}>
-      <div className="bg-red-300 mt-5 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 p-3 cursor-pointer border border-gray-100">
+      <div className=" mt-10 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 p-3 cursor-pointer border border-gray-100">
 
         <img
           src={product.imageCover}
