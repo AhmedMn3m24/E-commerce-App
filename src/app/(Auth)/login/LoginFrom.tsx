@@ -125,7 +125,10 @@ export default function LoginForm() {
         })
         if (res?.ok) {
             toast.success('Welcome back!');
-            window.location.href = '/';
+            // window.location.href = '/';
+            router.push('/');
+
+
         } else {
             toast.error('Invalid email or password', { duration: 4000 });
         }

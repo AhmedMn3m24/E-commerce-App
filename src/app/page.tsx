@@ -6,6 +6,7 @@ import CatrgorySlider from './_Component/CatrgorySlider/CatrgorySlider';
 import { lazy, Suspense } from 'react';
 import { Loader } from 'lucide-react';
 import Loading from './_Component/Loading';
+import { Button } from '@/components/ui/button';
 
 
 const categorySlider = lazy(() => import('./_Component/CatrgorySlider/CatrgorySlider'))
@@ -31,10 +32,11 @@ export default async function Home() {
           </Suspense>
         </div>
       </div >
-      <h1 className='text-4xl mt-12 ml-10 font-bold  '>Products</h1>
-      <div className='grid grid-cols-4 w-3/4 gap-5 mx-auto mt-10 mb-20'>
-
-        {allProducts?.map(product => <ProductCard key={product.id} product={product} />)}
+      <h1 className='text-3xl mt-12 font-bold text-center'>Products</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 px-4 md:px-8 lg:px-10 mt-10 mb-20">
+        {allProducts?.map(product => (
+          <ProductCard key={product.id} product={product} />
+        ))}
       </div>
     </>
   )

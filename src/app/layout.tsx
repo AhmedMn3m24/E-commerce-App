@@ -4,7 +4,7 @@ import Navbar from "./_Component/Home/Navbar/Navbar";
 import Footer from "./_Component/Footer/Footer";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { Toaster } from "react-hot-toast";
-
+import MySessionProvider from "./_Component/SessionProvider/MySessionProvider";
 
 
 export const metadata: Metadata = {
@@ -23,19 +23,21 @@ export default function RootLayout({
       >
         <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-16">
         </div>
-        <Navbar />
-        {/* <Mainslider /> */}
-        {children}
-        <Toaster
-          position="top-center"
-          reverseOrder={false}
-          containerStyle={{
-            top: 20,
-            left: "50%",
-            transform: "translateX(-50%)",
-          }}
-        />
-        <Footer />
+
+        <MySessionProvider>
+          <Navbar />
+          {children}
+          <Toaster
+            position="top-center"
+            reverseOrder={false}
+            containerStyle={{
+              top: 20,
+              left: "50%",
+              transform: "translateX(-50%)",
+            }}
+          />
+          {/* <Footer /> */}
+        </MySessionProvider>
       </body>
     </html>
   );

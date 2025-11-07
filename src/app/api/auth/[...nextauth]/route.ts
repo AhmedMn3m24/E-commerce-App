@@ -50,13 +50,14 @@ export const NextAuthConfig: AuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
+        console.log("user.credentialsToken ===>", user.credentialsToken);
+
         const decodedToken: any = jwtDecode(user.credentialsToken);
 
         token.credentialsToken = user.credentialsToken;
         token.userId = decodedToken.id;
         token.name = decodedToken.name;
       }
-
       return token;
     },
 
@@ -90,7 +91,16 @@ export const NextAuthConfig: AuthOptions = {
 
     // },
 
+  },
+
+  session: {
+    strategy: "jwt",
+    maxAge: 7 * 24 * 60 * 60, // 7 days
   }
+
+
+
+
 }
 
 
