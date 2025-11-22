@@ -38,35 +38,40 @@
 
 // }
 
-
-import { getAllCategories } from '@/lib/services/CategoriesServices'
-import React from 'react'
-import MySwiper from '../MySwiper/MySwiper';
-import { CategoryType } from '@/lib/interfaces/Category';
+import { getAllCategories } from "@/lib/services/CategoriesServices";
+import React from "react";
+import MySwiper from "../MySwiper/MySwiper";
+import { CategoryType } from "@/lib/interfaces/Category";
 
 export default async function CategorySlider() {
-    const allCategories = await getAllCategories();
-    console.log("allCategories", allCategories);
+  const allCategories = await getAllCategories();
+  console.log("allCategories", allCategories);
 
-    if (!allCategories) {
-        return null;
-    }
+  if (!allCategories) {
+    return null;
+  }
 
-    return (
-        <div className="max-w-6xl mx-auto px-4 mt-15"> {/* Container like Bootstrap */}
-            <h1 className="font-bold text-3xl mb-10">Categories</h1>
-            <MySwiper
-                slidesPerView={4}
-                spaceBetween={20}
-                imagesList={allCategories.map(
-                    (category: CategoryType) => category.image
-                )}
-                autoplay={true}
-                delay={1000}
-                imgHeight="h-[300px]"
-                imgWidth="w-[300px]"
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 overflow-hidden lg:grid-cols-4 flex-wrap gap-10 items-center justify-center">
+      <div className="max-w-7xl mx-auto px-4 mt-15">
+        {/* Container like Bootstrap */}
+        <h1 className="font-bold text-4xl mb-10 font-sans ml-122 ">
+          Categories
+        </h1>
+        <MySwiper
+          slidesPerView={4}
+          spaceBetween={20}
+          imagesList={allCategories.map(
+            (category: CategoryType) => category.image
+          )}
+          autoplay={true}
+          delay={1000}
+          imgHeight="h-[300px]"
+          imgWidth="w-[300px]"
+        />
+      </div>
 
-            />
-        </div>
-    );
+      {/* أي عناصر إضافية ممكن تحطها هنا جوه الـ grid من غير ما تغير التنسيق */}
+    </div>
+  );
 }

@@ -1,34 +1,30 @@
 "use server";
 
 import { getMyUserToken } from "@/utlis/utlis";
-import { log } from "console";
 import { revalidatePath, revalidateTag } from "next/cache";
 
-export async function AddProductToCart(productId: string) {
+export async function addProductToCart(productId: string) {
   const usertoken = await getMyUserToken();
 
-  if (!usertoken) {
-    console.log(" No user token found — user not logged in");
-    return null;
-  }
+  if (usertoken) {
+    const res = await fetch("https://ecommerce.routemisr.com/api/v1/cart", {
+      method: "POST",
+      body: JSON.stringify({ productId }),
+      headers: {
+        "Content-Type": "application/json",
+        token: usertoken as string,
+      },
+    });
 
-  const res = await fetch("https://ecommerce.routemisr.com/api/v1/cart", {
-    method: "POST",
-    body: JSON.stringify({ productId }),
-    headers: {
-      "Content-Type": "application/json",
-      token: usertoken as string,
-    },
-  });
+    const finalRes = await res.json();
+    if (finalRes.status === "success") {
+      // revalidatePath("/cart");
+      revalidateTag("get-cart-items");
 
-  const finalRes = await res.json();
-  if (finalRes.status === "success") {
-    // revalidatePath('/cart');
-    revalidateTag("get-cart-items");
-
-    return finalRes.numOfCartItems;
-  } else {
-    return false;
+      return finalRes.numOfCartItems;
+    } else {
+      return false;
+    }
   }
 }
 
@@ -68,8 +64,8 @@ export async function ChangeCount(productId: string, count: number) {
       headers: {
         "Content-Type": "application/json",
         token: usertoken as string,
-        body: JSON.stringify({ count }),
       },
+      body: JSON.stringify({ count }),
     }
   );
 
@@ -78,7 +74,6 @@ export async function ChangeCount(productId: string, count: number) {
   console.log(final, "Change count final");
   if (final.status === "success") {
     revalidatePath("/cart");
-
     return final.numOfCartItems;
   } else {
     return null;

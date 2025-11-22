@@ -1,63 +1,19 @@
 import RegisterForm from "./RegsiterFrom";
 
-
 export default function Register() {
-
-
-
-
-
   return (
     <>
       <div>
-        <h2 className="text-3xl text-center mt-5 font-semibold">Create an account</h2>
+        <h2 className="text-3xl text-center mt-5 font-semibold">
+          Create an account
+        </h2>
         <RegisterForm />
       </div>
-
     </>
   );
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-{/* // "use client"
+/* // "use client"
 // import React, { useState } from "react";
 // // import login from "@/assets/images/login.jpg";
 // import { Input } from "@/components/ui/input";
@@ -225,4 +181,3 @@ export default function Register() {
 //     </div >
   );
 } */
-}

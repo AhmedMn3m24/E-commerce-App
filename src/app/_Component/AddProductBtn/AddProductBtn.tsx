@@ -1,43 +1,29 @@
-'use client';
+"use client";
+import { addProductToCart } from "@/app/cart/cartaction";
+import { CartContext } from "@/Context/CartContext";
+import { useContext } from "react";
+import toast from "react-hot-toast";
 
-import { AddProductToCart } from '@/app/cart/cartaction';
-import { Button } from '@/components/ui/button';
-import { useRouter } from 'next/navigation';
-import toast from 'react-hot-toast';
-import { CartContext } from '../SessionProvider/cartContext';
-import { useContext } from 'react';
+export default function AddProductBtn({ productId }: { productId: string }) {
+  const { updateCartCount } = useContext(CartContext);
+  async function handleAddTocart() {
+    console.log("adding");
 
-type AddProductBtnProps = {
-    id: string;
-    className?: string;
-};
-
-export default function AddProductBtn({ id, className }: AddProductBtnProps) {
-    const { updateCartCount } = useContext(CartContext)
-    const router = useRouter();
-    async function handleAddTocart() {
-        console.log('adding');
-
-        const isAdded = await AddProductToCart(id);
-
-        if (isAdded) {
-            toast.success('Product added to cart');
-            updateCartCount(isAdded)
-
-        } else {
-            toast.error('Failed to add product to cart');
-        }
-        await AddProductToCart(id);
-
-        router.push(`/ProductDetalis/${id}`);
+    const isAdded = await addProductToCart(productId);
+    if (isAdded) {
+      toast.success("Product Added Successfully ");
+      updateCartCount(isAdded);
+    } else {
+      toast.error("Product feild ");
     }
+  }
 
-    return (
-        <Button
-            onClick={handleAddTocart}
-            className={`bg-black text-white py-2 rounded-lg hover:bg-cyan-950 transition-all duration-300 ${className}`}
-        >
-            Add to Cart
-        </Button>
-    );
+  return (
+    <button
+      onClick={handleAddTocart}
+      className="w-full bg-black text-white  py-2 px-3 cursor-pointer rounded-lg "
+    >
+      Add to Cart
+    </button>
+  );
 }

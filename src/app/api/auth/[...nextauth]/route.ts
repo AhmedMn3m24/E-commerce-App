@@ -1,6 +1,143 @@
-import NextAuth, { AuthOptions } from "next-auth";
+// import NextAuth, { AuthOptions } from "next-auth";
+// import CredentialsProvider from "next-auth/providers/credentials";
+// import { jwtDecode } from 'jwt-decode';
+// export const NextAuthConfig: AuthOptions = {
+//   providers: [
+//     CredentialsProvider({
+//       name: "credentials",
+//       credentials: {
+//         email: { label: "Email", type: "text" },
+//         password: { label: "Password", type: "password" },
+//       },
+//       async authorize(credentials) {
+//         try {
+//           const res = await fetch("https://ecommerce.routemisr.com/api/v1/auth/signin", {
+//             method: "post",
+//             headers: { "Content-Type": "application/json" },
+//             body: JSON.stringify({
+//               email: credentials?.email,
+//               password: credentials?.password,
+//             }),
+//           });
+
+//           const finalRes = await res.json();
+//           console.log("finalRes auth", finalRes);
+
+//           if (finalRes.message === "success") {
+//             const decodedToken: { _id: string; email: string; name: string } = jwtDecode(finalRes.token);
+//             return {
+//               id: decodedToken._id,
+//               name: decodedToken.name,
+//               email: decodedToken.email,
+//               // credentialsToken: finalRes.token,
+//               credentialsToken: finalRes.token,
+//             };
+//           }
+
+//           return null;
+//         } catch (error) {
+//           console.error("Authorize error:", error);
+//           return null;
+//         }
+//       },
+//     }),],
+
+
+//   pages: {
+//     signIn: "/login",
+//   },
+
+//   callbacks: {
+//     async jwt({ token, user }) {
+//       if (user) {
+//         console.log("user.credentialsToken ===>", user.credentialsToken);
+
+//         const decodedToken: any = jwtDecode(user.credentialsToken);
+
+//         token.credentialsToken = user.credentialsToken;
+//         token.userId = decodedToken.id;
+//         token.name = decodedToken.name;
+//       }
+//       return token;
+//     },
+
+//     async session({ session, token }) {
+//       if (!session.user) session.user = {};
+
+//       session.user.id = token.userId;
+//       session.user.name = token.name;
+
+//       return session;
+//     }
+
+
+//     // callbacks: {
+//     //   async jwt(params) {
+//     //     console.log('JWT Params', params);
+//     //     if (params.user) {
+//     //       params.token.credentialsToken = params.user.credentialsToken;
+//     //       params.token.userId = params.user.id;
+
+//     //     }
+//     //     return params.token;
+//     //   },
+
+//     //   async session(params) {
+//     //     console.log('Session Params', params);
+//     //   session.user.id = token.userId;
+//     //     return params.session;
+//     //   },
+//     // }
+
+//     // },
+
+//   },
+
+//   session: {
+//     strategy: "jwt",
+//     maxAge: 7 * 24 * 60 * 60, // 7 days
+//   }
+
+
+
+
+// }
+
+
+// const handler = NextAuth(NextAuthConfig);
+// export { handler as GET, handler as POST };
+
+
+
+
+
+
+
+// "use server";
+import NextAuth, { AuthOptions, DefaultSession } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { jwtDecode } from 'jwt-decode';
+import { jwtDecode } from "jwt-decode";
+
+declare module "next-auth" {
+  interface Session {
+    user: {
+      id?: string;
+      credentialsToken?: string;
+    } & DefaultSession["user"];
+  }
+
+  interface User {
+    id?: string;
+    credentialsToken?: string;
+  }
+
+  interface JWT {
+    credentialsToken?: string;
+    userId?: string;
+    name?: string;
+  }
+}
+
 export const NextAuthConfig: AuthOptions = {
   providers: [
     CredentialsProvider({
@@ -11,25 +148,32 @@ export const NextAuthConfig: AuthOptions = {
       },
       async authorize(credentials) {
         try {
-          const res = await fetch("https://ecommerce.routemisr.com/api/v1/auth/signin", {
-            method: "post",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              email: credentials?.email,
-              password: credentials?.password,
-            }),
-          });
+          const res = await fetch(
+            "https://ecommerce.routemisr.com/api/v1/auth/signin",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                email: credentials?.email,
+                password: credentials?.password,
+              }),
+            }
+          );
 
           const finalRes = await res.json();
           console.log("finalRes auth", finalRes);
 
           if (finalRes.message === "success") {
-            const decodedToken: { _id: string; email: string; name: string } = jwtDecode(finalRes.token);
+            const decodedToken: {
+              _id: string;
+              email: string;
+              name: string;
+            } = jwtDecode(finalRes.token);
+
             return {
               id: decodedToken._id,
               name: decodedToken.name,
               email: decodedToken.email,
-              // credentialsToken: finalRes.token,
               credentialsToken: finalRes.token,
             };
           }
@@ -40,79 +184,45 @@ export const NextAuthConfig: AuthOptions = {
           return null;
         }
       },
-    }),],
-
+    }),
+  ],
 
   pages: {
-    signIn: "/login",
+    signIn: "/register",
   },
 
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        console.log("user.credentialsToken ===>", user.credentialsToken);
-
-        const decodedToken: any = jwtDecode(user.credentialsToken);
+        const decodedToken: any = jwtDecode(user.credentialsToken!);
 
         token.credentialsToken = user.credentialsToken;
-        token.userId = decodedToken.id;
+        token.userId = decodedToken._id;
         token.name = decodedToken.name;
       }
       return token;
     },
 
     async session({ session, token }) {
-      if (!session.user) session.user = {};
+      if (!session.user) session.user = {} as any;
 
       session.user.id = token.userId;
       session.user.name = token.name;
+      session.user.credentialsToken = token.credentialsToken;
 
       return session;
-    }
-
-
-    // callbacks: {
-    //   async jwt(params) {
-    //     console.log('JWT Params', params);
-    //     if (params.user) {
-    //       params.token.credentialsToken = params.user.credentialsToken;
-    //       params.token.userId = params.user.id;
-
-    //     }
-    //     return params.token;
-    //   },
-
-    //   async session(params) {
-    //     console.log('Session Params', params);
-    //   session.user.id = token.userId;
-    //     return params.session;
-    //   },
-    // }
-
-    // },
-
+    },
   },
 
   session: {
     strategy: "jwt",
-    maxAge: 7 * 24 * 60 * 60, // 7 days
-  }
+    maxAge: 3 * 30 * 24 * 60 * 60,
+  },
+};
 
-
-
-
-}
-
-
+// 🔹 Export handler for Next.js App Router
 const handler = NextAuth(NextAuthConfig);
 export { handler as GET, handler as POST };
-
-
-
-
-
-
-
 
 
 
