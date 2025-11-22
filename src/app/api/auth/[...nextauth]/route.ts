@@ -1,13 +1,9 @@
-
-
-
-
-
-// "use server";
+"use server";
 import NextAuth, { AuthOptions, DefaultSession } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { jwtDecode } from "jwt-decode";
+import jwtDecode from "jwt-decode"; // ✅ صحّح الاستدعاء
 
+// 🔹 Type augmentation لـ NextAuth
 declare module "next-auth" {
   interface Session {
     user: {
@@ -28,6 +24,7 @@ declare module "next-auth" {
   }
 }
 
+// 🔹 NextAuth configuration
 export const NextAuthConfig: AuthOptions = {
   providers: [
     CredentialsProvider({
@@ -37,6 +34,8 @@ export const NextAuthConfig: AuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
+        if (!credentials?.email || !credentials?.password) return null;
+
         try {
           const res = await fetch(
             "https://ecommerce.routemisr.com/api/v1/auth/signin",
@@ -44,8 +43,8 @@ export const NextAuthConfig: AuthOptions = {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
-                email: credentials?.email,
-                password: credentials?.password,
+                email: credentials.email,
+                password: credentials.password,
               }),
             }
           );
@@ -53,12 +52,9 @@ export const NextAuthConfig: AuthOptions = {
           const finalRes = await res.json();
           console.log("finalRes auth", finalRes);
 
-          if (finalRes.message === "success") {
-            const decodedToken: {
-              _id: string;
-              email: string;
-              name: string;
-            } = jwtDecode(finalRes.token);
+          if (finalRes.message === "success" && finalRes.token) {
+            const decodedToken: { _id: string; email: string; name: string } =
+              jwtDecode(finalRes.token);
 
             return {
               id: decodedToken._id,
@@ -78,13 +74,13 @@ export const NextAuthConfig: AuthOptions = {
   ],
 
   pages: {
-    signIn: "/register",
+    signIn: "/register", // صفحة تسجيل الدخول
   },
 
   callbacks: {
     async jwt({ token, user }) {
-      if (user) {
-        const decodedToken: any = jwtDecode(user.credentialsToken!);
+      if (user?.credentialsToken) {
+        const decodedToken: any = jwtDecode(user.credentialsToken);
 
         token.credentialsToken = user.credentialsToken;
         token.userId = decodedToken._id;
@@ -94,31 +90,22 @@ export const NextAuthConfig: AuthOptions = {
     },
 
     async session({ session, token }) {
-      if (!session.user) session.user = {} as any;
-      // @ts-ignore
-
-      session.user.id = token.userId;
-      session.user.name = token.name;
-      // @ts-ignore
-
-      session.user.credentialsToken = token.credentialsToken;
-
+      session.user = {
+        ...session.user,
+        id: token.userId,
+        name: token.name,
+        credentialsToken: token.credentialsToken,
+      };
       return session;
     },
   },
 
   session: {
     strategy: "jwt",
-    maxAge: 3 * 30 * 24 * 60 * 60,
+    maxAge: 3 * 30 * 24 * 60 * 60, // 3 شهور
   },
 };
 
 // 🔹 Export handler for Next.js App Router
 const handler = NextAuth(NextAuthConfig);
 export { handler as GET, handler as POST };
-
-
-
-
-
-
