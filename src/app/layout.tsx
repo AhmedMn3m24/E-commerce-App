@@ -2,11 +2,11 @@ import "./globals.css";
 import Navbar from "./_Component/Home/Navbar/Navbar";
 import Footer from "./_Component/Footer/Footer";
 import { Toaster } from "react-hot-toast";
-import MySessionProvider from "./_Component/SessionProvider/MySessionProvider";
 import FavProvider from "./_Component/Home/Navbar/favContext/favContext";
 import { AuthProvider } from "@/Context/AuthContext";
 import { Metadata } from "next";
 import { CartContextProvider } from "@/Context/CartContext";
+import MySessionProvider from "./_Component/SessionProvider/MySessionProvider";
 
 type RootLayoutProps = {
   children: React.ReactNode;
