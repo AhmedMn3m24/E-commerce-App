@@ -116,12 +116,13 @@
 // const handler = NextAuth(NextAuthConfig);
 // export { handler as GET, handler as POST };
 
-
+"use server";
 
 import NextAuth, { AuthOptions, DefaultSession } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { jwtDecode } from "jwt-decode";
 
+// -------- Type Augmentation --------
 declare module "next-auth" {
   interface Session {
     user: {
@@ -142,6 +143,7 @@ declare module "next-auth" {
   }
 }
 
+// -------- NextAuth Config --------
 export const NextAuthConfig: AuthOptions = {
   providers: [
     CredentialsProvider({
@@ -193,23 +195,23 @@ export const NextAuthConfig: AuthOptions = {
   ],
 
   pages: {
-    signIn: "/login",
+    signIn: "/login", // صفحة تسجيل دخول فعلية
   },
 
   callbacks: {
     async jwt({ token, user }) {
       if (user?.credentialsToken) {
-        const decoded = jwtDecode<any>(user.credentialsToken);
-
         token.credentialsToken = user.credentialsToken;
-        token.userId = decoded._id;
-        token.name = decoded.name;
+        token.userId = user.id;
+        token.name = user.name;
       }
       return token;
     },
 
     async session({ session, token }) {
       session.user = session.user || {} as any;
+
+      // Type assertions عشان TypeScript يبني
       session.user.id = token.userId as string | undefined;
       session.user.name = token.name as string | undefined;
       session.user.credentialsToken = token.credentialsToken as string | undefined;
@@ -220,13 +222,10 @@ export const NextAuthConfig: AuthOptions = {
 
   session: {
     strategy: "jwt",
-    maxAge: 3 * 30 * 24 * 60 * 60,
+    maxAge: 3 * 30 * 24 * 60 * 60, // 3 شهور
   },
 };
 
+// Export handler for App Router
 const handler = NextAuth(NextAuthConfig);
-
 export { handler as GET, handler as POST };
-
-
-
