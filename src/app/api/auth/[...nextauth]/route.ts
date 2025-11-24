@@ -122,7 +122,6 @@ import NextAuth, { AuthOptions, DefaultSession } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { jwtDecode } from "jwt-decode";
 
-// -------- Type Augmentation --------
 declare module "next-auth" {
   interface Session {
     user: {
@@ -143,7 +142,6 @@ declare module "next-auth" {
   }
 }
 
-// -------- NextAuth Config --------
 export const NextAuthConfig: AuthOptions = {
   providers: [
     CredentialsProvider({
@@ -195,7 +193,7 @@ export const NextAuthConfig: AuthOptions = {
   ],
 
   pages: {
-    signIn: "/register",
+    signIn: "/login",
   },
 
   callbacks: {
