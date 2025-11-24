@@ -210,10 +210,9 @@ export const NextAuthConfig: AuthOptions = {
 
     async session({ session, token }) {
       session.user = session.user || {} as any;
-
-      session.user.id = token.userId;
-      session.user.name = token.name;
-      session.user.credentialsToken = token.credentialsToken;
+      session.user.id = token.userId as string | undefined;
+      session.user.name = token.name as string | undefined;
+      session.user.credentialsToken = token.credentialsToken as string | undefined;
 
       return session;
     },
