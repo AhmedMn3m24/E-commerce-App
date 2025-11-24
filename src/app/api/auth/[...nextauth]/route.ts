@@ -3,7 +3,7 @@
 
 import NextAuth, { AuthOptions, DefaultSession } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { jwtDecode } from "jwt-decode";
+import jwtDecode from "jwt-decode";
 
 // -------- Type Augmentation --------
 declare module "next-auth" {
