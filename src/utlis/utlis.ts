@@ -4,15 +4,14 @@ import { decode } from "next-auth/jwt";
 import { cookies } from "next/headers";
 
 export async function getMyUserToken() {
-    const cookieStore = await cookies();
-    const sessiontoken = cookieStore.get('next-auth.session-token')?.value;
-
-
-    const decodedToken = await decode({ token: sessiontoken, secret: process.env.NEXTAUTH_SECRET || '' })
-    console.log(decodedToken, 'decodedToken')
-    return decodedToken?.credentialsToken;
-
+    const cookie = await cookies()
+    const tokenSession =
+        cookie.get('__Secure-next-auth.session-token')?.value || // Production
+        cookie.get('next-auth.session-token')?.value;            // Dev
+    const decodedToken = await decode({ token: tokenSession, secret: process.env.NEXTAUTH_SECRET! })
+    return decodedToken?.credentialToken
 }
+
 
 
 
