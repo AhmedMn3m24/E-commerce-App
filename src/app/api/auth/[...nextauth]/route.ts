@@ -1,5 +1,4 @@
 
-
 import NextAuth, { AuthOptions, DefaultSession } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import jwtDecode from "jwt-decode";
@@ -37,7 +36,7 @@ export const NextAuthConfig: AuthOptions = {
       async authorize(credentials) {
         try {
           const res = await fetch(
-            `${process.env.NEXT_PUBLIC_MY_DOMAIN}/api/v1/auth/signin`,
+            `https://ecommerce.routemisr.com/api/v1/auth/signin`,
             {
               method: "POST",
               headers: { "Content-Type": "application/json" },
@@ -108,6 +107,5 @@ export const NextAuthConfig: AuthOptions = {
   },
 };
 
-// Export handler for App Router
 const handler = NextAuth(NextAuthConfig);
 export { handler as GET, handler as POST };
