@@ -1,10 +1,10 @@
 
+"use server";
 
 import NextAuth, { AuthOptions, DefaultSession } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import jwtDecode from "jwt-decode";
 
-// -------- Type Augmentation --------
 declare module "next-auth" {
   interface Session {
     user: {
@@ -38,7 +38,7 @@ export const NextAuthConfig: AuthOptions = {
       async authorize(credentials) {
         try {
           const res = await fetch(
-            "https://ecommerce.routemisr.com/api/v1/auth/signin",
+            `${process.env.NEXT_PUBLIC_MY_DOMAIN}/api/v1/auth/signin`,
             {
               method: "POST",
               headers: { "Content-Type": "application/json" },
@@ -87,6 +87,8 @@ export const NextAuthConfig: AuthOptions = {
         token.userId = user.id;
         token.name = user.name;
       }
+      console.log("JWT after modification:", token);
+
       return token;
     },
 
