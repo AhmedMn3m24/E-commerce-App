@@ -14,6 +14,7 @@ export default function ProductCard({ product }: { product: any }) {
 
   const handleAddToCart = async () => {
     const res = await addProductToCart(product.id);
+
     if (res !== false && res !== null) {
       toast.success("Product added to cart!");
     } else {
