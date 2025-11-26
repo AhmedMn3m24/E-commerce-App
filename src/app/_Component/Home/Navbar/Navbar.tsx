@@ -84,9 +84,9 @@ export default function Navbar() {
                 </Link>
               </div>
 
-              {/* Wishlist */}
+              {/* wishlist */}
               <div className="relative">
-                <Link href="/wishList">
+                <Link href="/wishlist">
                   <Heart className="cursor-pointer text-3xl" />
                   {favs.length > 0 && (
                     <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
