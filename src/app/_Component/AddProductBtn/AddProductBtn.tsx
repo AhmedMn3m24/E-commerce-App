@@ -10,6 +10,8 @@ export default function AddProductBtn({ productId }: { productId: string }) {
     console.log("adding");
 
     const isAdded = await addProductToCart(productId);
+    console.log(isAdded);
+
     if (isAdded) {
       toast.success("Product Added Successfully ");
       updateCartCount(isAdded);

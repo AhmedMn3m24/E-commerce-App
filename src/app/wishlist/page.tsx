@@ -1,4 +1,3 @@
-// src/app/wishlist/page.tsx
 "use client";
 
 import { useFav } from "@/app/_Component/Home/Navbar/favContext/favContext";

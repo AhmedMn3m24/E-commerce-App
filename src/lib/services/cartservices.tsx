@@ -2,9 +2,6 @@
 import { getMyUserToken } from "@/utlis/utlis";
 import { CartResponseType, ItemType } from "./types/cartTypes";
 
-function AddProductToCart() {}
-function updateCartCount() {}
-
 export async function getLoggedCart(): Promise<CartResponseType> {
   const token = await getMyUserToken();
 
@@ -17,9 +14,9 @@ export async function getLoggedCart(): Promise<CartResponseType> {
   });
 
   const final = await res.json();
-  const {
-    numOfCartItems,
-    data: { products, totalCartPrice },
-  } = final;
+  const products = final?.data?.products || [];
+  const totalCartPrice = final?.data?.totalCartPrice || 0;
+  const numOfCartItems = final?.numOfCartItems || 0;
+
   return { numOfCartItems, products, totalCartPrice };
 }
