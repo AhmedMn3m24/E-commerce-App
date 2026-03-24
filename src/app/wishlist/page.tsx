@@ -3,7 +3,7 @@
 import { useFav } from "@/app/_Component/Home/Navbar/favContext/favContext";
 import ProductCard from "@/app/_Component/ProductCard/ProductCard";
 
-export default function wishlistPage() {
+export default function WishlistPage() {
   const { favs } = useFav();
 
   return (
