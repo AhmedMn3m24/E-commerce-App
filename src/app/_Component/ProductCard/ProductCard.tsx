@@ -23,7 +23,7 @@ export default function ProductCard({ product }: { product: any }) {
   };
 
   return (
-    <div className="relative mt-10 rounded-xl shadow-md pt-6 hover:shadow-lg transition-all duration-300 p-3 cursor-pointer border border-gray-200 bg-white hover:scale-[1.02]">
+    <div className=" product-item flex flex-col content-start relative mt-10 rounded-xl shadow-md pt-6 hover:shadow-lg transition-all duration-300 p-3 cursor-pointer border border-gray-200 bg-white hover:scale-[1.02]">
       <Link href={`/ProductDetalis/${product.id}`}>
         <img
           src={product.imageCover}
@@ -46,8 +46,9 @@ export default function ProductCard({ product }: { product: any }) {
             <CiStar className="text-lg" />
           </div>
         </div>
-        <AddProductBtn productId={product.id} />
       </Link>
+      <AddProductBtn productId={product.id} />
+
       {/* Heart */}
       <div
         onClick={(e) => {

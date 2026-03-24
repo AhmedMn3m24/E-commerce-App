@@ -13,8 +13,8 @@ export default function AddProductBtn({ productId }: { productId: string }) {
     console.log(isAdded);
 
     if (isAdded) {
-      toast.success("Product Added Successfully ");
       updateCartCount(isAdded);
+      toast.success("Product Added Successfully ");
     } else {
       toast.error("Product feild ");
     }
@@ -23,7 +23,7 @@ export default function AddProductBtn({ productId }: { productId: string }) {
   return (
     <button
       onClick={handleAddTocart}
-      className="w-full bg-black text-white  py-2 px-3 cursor-pointer rounded-lg "
+      className="w-full bg-red-500 text-white  py-2 px-6 cursor-pointer rounded-lg mt-auto"
     >
       Add to Cart
     </button>

@@ -3,12 +3,12 @@
 import { useFav } from "@/app/_Component/Home/Navbar/favContext/favContext";
 import ProductCard from "@/app/_Component/ProductCard/ProductCard";
 
-export default function WishlistPage() {
+export default function wishlistPage() {
   const { favs } = useFav();
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Wishlist</h1>
+      <h1 className="text-2xl font-bold mb-4">wishlist</h1>
       {favs.length === 0 ? (
         <p className="text-gray-500">You have no favorite products yet.</p>
       ) : (
