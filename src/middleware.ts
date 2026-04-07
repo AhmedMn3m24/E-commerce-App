@@ -11,6 +11,9 @@ export async function middleware(req: NextRequest) {
     const { pathname } = req.nextUrl;
 
     if (pathname.startsWith("/login") || pathname.startsWith("/register")) {
+        if (token) {
+            return NextResponse.redirect(new URL("/", req.url));
+        }
         return NextResponse.next();
     }
 
