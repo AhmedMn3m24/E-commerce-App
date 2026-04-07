@@ -5,7 +5,7 @@ import { revalidatePath, revalidateTag } from "next/cache";
 
 export async function addProductToCart(productId: string) {
   const usertoken = await getMyUserToken();
-  console.log(usertoken);
+  console.log(usertoken); 
 
   if (usertoken) {
     const res = await fetch("https://ecommerce.routemisr.com/api/v1/cart", {

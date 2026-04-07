@@ -4,8 +4,6 @@ import { createContext, useState, ReactNode } from "react";
 
 export const CartContext = createContext({
   cartCount: 0,
-  // @ts-ignore
-
   updateCartCount: (x: number) => {},
 });
 

@@ -5,7 +5,7 @@ import { CartResponseType, ItemType } from "./types/cartTypes";
 export async function getLoggedCart(): Promise<CartResponseType> {
   const token = await getMyUserToken();
 
-  const res = await fetch("https://ecommerce.routemisr.com/api/v1/cart", {
+  const res = await  fetch("https://ecommerce.routemisr.com/api/v1/cart", {
     headers: {
       token: token as string,
     },
